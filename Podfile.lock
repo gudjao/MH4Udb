@@ -1,0 +1,17 @@
+PODS:
+  - FMDB (2.5):
+    - FMDB/standard (= 2.5)
+  - FMDB/common (2.5)
+  - FMDB/standard (2.5):
+    - FMDB/common
+  - RATreeView (1.0.1)
+
+DEPENDENCIES:
+  - FMDB
+  - RATreeView (~> 1.0)
+
+SPEC CHECKSUMS:
+  FMDB: 0efa188cf0dd1ce82c27a478cd5f5fa245308677
+  RATreeView: a8eee30160a18d71f0c86def61a22e007411a0f4
+
+COCOAPODS: 0.35.0
