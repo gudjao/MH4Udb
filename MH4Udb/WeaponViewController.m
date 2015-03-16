@@ -139,7 +139,7 @@
     int final = 0;
     
     for(NSDictionary *weaponDetail in self.weaponList) {
-        [weaponTreeArray addObject:weaponDetail];
+        //[weaponTreeArray addObject:weaponDetail];
         for(NSDictionary *weaponDetail2 in self.weaponList) {
             if([weaponDetail objectForKey:@"weaponID"] == [weaponDetail2 objectForKey:@"parentID"]) {
                 if([[weaponDetail2 objectForKey:@"final"] isEqualToNumber:[NSNumber numberWithInt:1]]) {
@@ -147,7 +147,7 @@
                 } else {
                     //[weaponTreeArray addObject:weaponDetail2];
                     //get tree
-                    NSNumber *wepID = [weaponDetail2 objectForKey:@"weaponID"];
+                    NSNumber *wepID = [weaponDetail objectForKey:@"weaponID"];
                     final = 0;
                     while (!final) {
                         for(NSDictionary *weaponDetail3 in self.weaponList) {
@@ -167,9 +167,11 @@
                 }
             }
         }
-        NSArray *weaponTreeArrayFinal = [weaponTreeArray copy];
-        [weaponDict setValue:weaponTreeArrayFinal forKey:[weaponDetail objectForKey:@"weaponName"]];
-        [weaponTreeArray removeAllObjects];
+        if([[weaponDetail objectForKey:@"parentID"] isEqualToNumber:[NSNumber numberWithInt:0]]) {
+            NSArray *weaponTreeArrayFinal = [weaponTreeArray copy];
+            [weaponDict setValue:weaponTreeArrayFinal forKey:[weaponDetail objectForKey:@"weaponName"]];
+            [weaponTreeArray removeAllObjects];
+        }
     }
     
     NSLog(@"WEAPON: %@", weaponDict);
