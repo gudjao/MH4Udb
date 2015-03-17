@@ -109,9 +109,11 @@
         NSMutableDictionary *weaponItemDetail = [NSMutableDictionary new];
         NSString *name = [item stringForColumn:@"name"];
         int weaponID = [item intForColumn:@"_id"];
+        int rarity = [item intForColumn:@"rarity"];
         NSLog(@"Weapon Name: %@", name);
         [weaponItemDetail setValue:[NSNumber numberWithInt:weaponID] forKey:@"itemID"];
         [weaponItemDetail setValue:name forKey:@"name"];
+        [weaponItemDetail setValue:[NSNumber numberWithInt:rarity] forKey:@"rarity"];
         [self.weaponItemList addObject:weaponItemDetail];
     }
     
@@ -127,6 +129,7 @@
         for(NSDictionary *weaponItem in self.weaponItemList) {
             if([[weaponItem objectForKey:@"itemID"] isEqualToNumber:[NSNumber numberWithInt:weaponID]]) {
                 [weaponDetail setValue:[weaponItem objectForKey:@"name"] forKey:@"weaponName"];
+                [weaponDetail setValue:[weaponItem objectForKey:@"rarity"] forKey:@"weaponRarity"];
             }
         }
         [self.weaponList addObject:weaponDetail];
@@ -134,47 +137,162 @@
     
     [db close];
     
-    NSMutableDictionary *weaponDict = [NSMutableDictionary new];
     NSMutableArray *weaponTreeArray = [NSMutableArray new];
+    NSMutableArray *weaponTreeArrayChecker = [NSMutableArray new];
+    NSMutableArray *weaponRepeatTrapping = [NSMutableArray new];
     int final = 0;
-    
-    for(NSDictionary *weaponDetail in self.weaponList) {
-        //[weaponTreeArray addObject:weaponDetail];
+    int currentWeaponID = 0;
+    int currentParentID = 0;
+
+    int count = 1;
+    for(NSDictionary *weaponDetail1 in self.weaponList) {
+        int weaponID = [[weaponDetail1 objectForKey:@"weaponID"] intValue];
+        NSMutableArray *weaponTreeChild = [NSMutableArray new];
         for(NSDictionary *weaponDetail2 in self.weaponList) {
-            if([weaponDetail objectForKey:@"weaponID"] == [weaponDetail2 objectForKey:@"parentID"]) {
-                if([[weaponDetail2 objectForKey:@"final"] isEqualToNumber:[NSNumber numberWithInt:1]]) {
-                    [weaponTreeArray addObject:weaponDetail2];
-                } else {
-                    //[weaponTreeArray addObject:weaponDetail2];
-                    //get tree
-                    NSNumber *wepID = [weaponDetail objectForKey:@"weaponID"];
-                    final = 0;
-                    while (!final) {
-                        for(NSDictionary *weaponDetail3 in self.weaponList) {
-                            if(wepID == [weaponDetail3 objectForKey:@"parentID"]) {
-                                if([[weaponDetail3 objectForKey:@"final"] isEqualToNumber:[NSNumber numberWithInt:1]]) {
-                                    final = 1;
-                                    [weaponTreeArray addObject:weaponDetail3];
-                                } else {
-                                    wepID = [weaponDetail3 objectForKey:@"weaponID"];
-                                    [weaponTreeArray addObject:weaponDetail3];
-                                }
-                            } else  {
-                                wepID = [weaponDetail3 objectForKey:@"weaponID"];
+            int parentID = [[weaponDetail2 objectForKey:@"parentID"] intValue];
+            
+            if(weaponID == parentID) {
+                final = 0;
+                WeaponObject *weaponChild = [WeaponObject dataObjectWithName:[weaponDetail2 objectForKey:@"weaponName"] children:nil];
+                [weaponTreeChild addObject:weaponChild];
+                currentWeaponID = [[weaponDetail2 objectForKey:@"weaponID"] intValue];
+                while(!final) {
+                    for(NSDictionary *weaponDetail3 in self.weaponList) {
+                        currentParentID = [[weaponDetail3 objectForKey:@"parentID"] intValue];
+                        if(currentWeaponID == currentParentID) {
+                            count++;
+                            WeaponObject *weaponChild = [WeaponObject dataObjectWithName:[weaponDetail3 objectForKey:@"weaponName"] children:nil];
+                            if(![weaponTreeArrayChecker containsObject:[weaponDetail3 objectForKey:@"weaponName"]]) {
+                                    [weaponRepeatTrapping addObject:[weaponDetail3 objectForKey:@"weaponID"]];
+                                    [weaponTreeChild addObject:weaponChild];
+                            }
+                            //[weaponTreeChild addObject:weaponChild];
+                            currentWeaponID = [[weaponDetail3 objectForKey:@"weaponID"] intValue];
+                            if([[weaponDetail3 objectForKey:@"final"] intValue] == 1) {
+                                final = 1;
+                            }
+                        } else {
+                            //currentWeaponID = [[weaponDetail3 objectForKey:@"weaponID"] intValue];
+                            if([[weaponDetail3 objectForKey:@"final"] intValue] == 1) {
+                                final = 1;
                             }
                         }
+                    }
+                    [weaponTreeArrayChecker removeAllObjects];
+                    for(WeaponObject *weaponChecker in weaponTreeChild) {
+                        [weaponTreeArrayChecker addObject:weaponChecker.name];
                     }
                 }
             }
         }
-        if([[weaponDetail objectForKey:@"parentID"] isEqualToNumber:[NSNumber numberWithInt:0]]) {
-            NSArray *weaponTreeArrayFinal = [weaponTreeArray copy];
-            [weaponDict setValue:weaponTreeArrayFinal forKey:[weaponDetail objectForKey:@"weaponName"]];
-            [weaponTreeArray removeAllObjects];
+        WeaponObject *weaponParent = [WeaponObject dataObjectWithName:[weaponDetail1 objectForKey:@"weaponName"] children:weaponTreeChild];
+        [weaponTreeArray addObject:weaponParent];
+    }
+    
+    [self.weaponTopList addObjectsFromArray:weaponTreeArray];
+    
+    NSMutableArray *rarity1 = [NSMutableArray new];
+    NSMutableArray *rarity2 = [NSMutableArray new];
+    NSMutableArray *rarity3 = [NSMutableArray new];
+    NSMutableArray *rarity4 = [NSMutableArray new];
+    NSMutableArray *rarity5 = [NSMutableArray new];
+    NSMutableArray *rarity6 = [NSMutableArray new];
+    NSMutableArray *rarity7 = [NSMutableArray new];
+    NSMutableArray *rarity8 = [NSMutableArray new];
+    NSMutableArray *rarity9 = [NSMutableArray new];
+    NSMutableArray *rarity10 = [NSMutableArray new];
+    
+    for(NSDictionary *weaponDetail in self.weaponList) {
+        WeaponObject *weapon = [WeaponObject dataObjectWithName:[weaponDetail objectForKey:@"weaponName"] children:nil];
+        NSNumber *rarity = [weaponDetail objectForKey:@"weaponRarity"];
+        NSLog(@"%d", [rarity intValue]);
+        switch ([rarity intValue]) {
+            case 1:
+                [rarity1 addObject:weapon];
+                break;
+            case 2:
+                [rarity2 addObject:weapon];
+                break;
+            case 3:
+                [rarity3 addObject:weapon];
+                break;
+            case 4:
+                [rarity4 addObject:weapon];
+                break;
+            case 5:
+                [rarity5 addObject:weapon];
+                break;
+            case 6:
+                [rarity6 addObject:weapon];
+                break;
+            case 7:
+                [rarity7 addObject:weapon];
+                break;
+            case 8:
+                [rarity8 addObject:weapon];
+                break;
+            case 9:
+                [rarity9 addObject:weapon];
+                break;
+            case 10:
+                [rarity10 addObject:weapon];
+                break;
+            default:
+                break;
         }
     }
     
-    NSLog(@"WEAPON: %@", weaponDict);
+    WeaponObject *weapon1 = [WeaponObject dataObjectWithName:@"Rarity 1" children:rarity1];
+    WeaponObject *weapon2 = [WeaponObject dataObjectWithName:@"Rarity 2" children:rarity2];
+    WeaponObject *weapon3 = [WeaponObject dataObjectWithName:@"Rarity 3" children:rarity3];
+    WeaponObject *weapon4 = [WeaponObject dataObjectWithName:@"Rarity 4" children:rarity4];
+    WeaponObject *weapon5 = [WeaponObject dataObjectWithName:@"Rarity 5" children:rarity5];
+    WeaponObject *weapon6 = [WeaponObject dataObjectWithName:@"Rarity 6" children:rarity6];
+    WeaponObject *weapon7 = [WeaponObject dataObjectWithName:@"Rarity 7" children:rarity7];
+    WeaponObject *weapon8 = [WeaponObject dataObjectWithName:@"Rarity 8" children:rarity8];
+    WeaponObject *weapon9 = [WeaponObject dataObjectWithName:@"Rarity 9" children:rarity9];
+    WeaponObject *weapon10 = [WeaponObject dataObjectWithName:@"Rarity 10" children:rarity10];
+
+    NSArray *objects = @[weapon1, weapon2, weapon3, weapon4, weapon5, weapon6, weapon7, weapon8, weapon9, weapon10];
+    //[self.weaponTopList addObjectsFromArray:objects];
+    
+//    for(NSDictionary *weaponDetail in self.weaponList) {
+//        //[weaponTreeArray addObject:weaponDetail];
+//        for(NSDictionary *weaponDetail2 in self.weaponList) {
+//            if([weaponDetail objectForKey:@"weaponID"] == [weaponDetail2 objectForKey:@"parentID"]) {
+//                if([[weaponDetail2 objectForKey:@"final"] isEqualToNumber:[NSNumber numberWithInt:1]]) {
+//                    [weaponTreeArray addObject:weaponDetail2];
+//                } else {
+//                    //[weaponTreeArray addObject:weaponDetail2];
+//                    //get tree
+//                    NSNumber *wepID = [weaponDetail objectForKey:@"weaponID"];
+//                    final = 0;
+//                    while (!final) {
+//                        for(NSDictionary *weaponDetail3 in self.weaponList) {
+//                            if(wepID == [weaponDetail3 objectForKey:@"parentID"]) {
+//                                if([[weaponDetail3 objectForKey:@"final"] isEqualToNumber:[NSNumber numberWithInt:1]]) {
+//                                    final = 1;
+//                                    [weaponTreeArray addObject:weaponDetail3];
+//                                } else {
+//                                    wepID = [weaponDetail3 objectForKey:@"weaponID"];
+//                                    [weaponTreeArray addObject:weaponDetail3];
+//                                }
+//                            } else  {
+//                                wepID = [weaponDetail3 objectForKey:@"weaponID"];
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        if([[weaponDetail objectForKey:@"parentID"] isEqualToNumber:[NSNumber numberWithInt:0]]) {
+//            NSArray *weaponTreeArrayFinal = [weaponTreeArray copy];
+//            [weaponDict setValue:weaponTreeArrayFinal forKey:[weaponDetail objectForKey:@"weaponName"]];
+//            [weaponTreeArray removeAllObjects];
+//        }
+//    }
+//    
+//    NSLog(@"WEAPON: %@", weaponDict);
 
     [self.treeView reloadData];
 }
@@ -211,7 +329,7 @@
 - (UITableViewCell *)treeView:(RATreeView *)treeView cellForItem:(id)item {
     
     WeaponObject *dataObject = item;
-    
+
     NSInteger level = [self.treeView levelForCellForItem:item];
     NSInteger numberOfChildren = [dataObject.children count];
     NSString *detailText = [NSString localizedStringWithFormat:@"Number of children %@", [@(numberOfChildren) stringValue]];
@@ -223,6 +341,9 @@
     if (level == 0) {
         cell.detailTextLabel.textColor = [UIColor blackColor];
     }
+    
+    NSInteger levels = [self.treeView levelForCell:cell];
+    NSLog(@"LEVELS: %d", (int)levels);
     
     cell.detailedLabel.frame = CGRectMake(5.0, 2.0, cell.frame.size.width, 40.0f);
     
