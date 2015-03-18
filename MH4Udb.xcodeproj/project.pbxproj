@@ -20,6 +20,15 @@
 		32C5166C1AB17BCF00ABF83E /* WeaponTypeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32C5166B1AB17BCF00ABF83E /* WeaponTypeTableViewController.m */; };
 		32C5166F1AB185D700ABF83E /* WeaponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32C5166E1AB185D700ABF83E /* WeaponViewController.m */; };
 		32C516721AB191E000ABF83E /* WeaponObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 32C516711AB191E000ABF83E /* WeaponObject.m */; };
+		32C519D81AB92A2C00ECF39B /* Blastblight.png in Resources */ = {isa = PBXBuildFile; fileRef = 32C519CF1AB92A2C00ECF39B /* Blastblight.png */; };
+		32C519D91AB92A2C00ECF39B /* Dragon.png in Resources */ = {isa = PBXBuildFile; fileRef = 32C519D01AB92A2C00ECF39B /* Dragon.png */; };
+		32C519DA1AB92A2C00ECF39B /* Fire.png in Resources */ = {isa = PBXBuildFile; fileRef = 32C519D11AB92A2C00ECF39B /* Fire.png */; };
+		32C519DB1AB92A2C00ECF39B /* Ice.png in Resources */ = {isa = PBXBuildFile; fileRef = 32C519D21AB92A2C00ECF39B /* Ice.png */; };
+		32C519DC1AB92A2C00ECF39B /* Paralysis.png in Resources */ = {isa = PBXBuildFile; fileRef = 32C519D31AB92A2C00ECF39B /* Paralysis.png */; };
+		32C519DD1AB92A2C00ECF39B /* Poison.png in Resources */ = {isa = PBXBuildFile; fileRef = 32C519D41AB92A2C00ECF39B /* Poison.png */; };
+		32C519DE1AB92A2C00ECF39B /* Sleep.png in Resources */ = {isa = PBXBuildFile; fileRef = 32C519D51AB92A2C00ECF39B /* Sleep.png */; };
+		32C519DF1AB92A2C00ECF39B /* Thunder.png in Resources */ = {isa = PBXBuildFile; fileRef = 32C519D61AB92A2C00ECF39B /* Thunder.png */; };
+		32C519E01AB92A2C00ECF39B /* Water.png in Resources */ = {isa = PBXBuildFile; fileRef = 32C519D71AB92A2C00ECF39B /* Water.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +65,15 @@
 		32C5166E1AB185D700ABF83E /* WeaponViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeaponViewController.m; sourceTree = "<group>"; };
 		32C516701AB191E000ABF83E /* WeaponObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeaponObject.h; sourceTree = "<group>"; };
 		32C516711AB191E000ABF83E /* WeaponObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeaponObject.m; sourceTree = "<group>"; };
+		32C519CF1AB92A2C00ECF39B /* Blastblight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Blastblight.png; path = Images/Blastblight.png; sourceTree = "<group>"; };
+		32C519D01AB92A2C00ECF39B /* Dragon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Dragon.png; path = Images/Dragon.png; sourceTree = "<group>"; };
+		32C519D11AB92A2C00ECF39B /* Fire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Fire.png; path = Images/Fire.png; sourceTree = "<group>"; };
+		32C519D21AB92A2C00ECF39B /* Ice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Ice.png; path = Images/Ice.png; sourceTree = "<group>"; };
+		32C519D31AB92A2C00ECF39B /* Paralysis.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Paralysis.png; path = Images/Paralysis.png; sourceTree = "<group>"; };
+		32C519D41AB92A2C00ECF39B /* Poison.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Poison.png; path = Images/Poison.png; sourceTree = "<group>"; };
+		32C519D51AB92A2C00ECF39B /* Sleep.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Sleep.png; path = Images/Sleep.png; sourceTree = "<group>"; };
+		32C519D61AB92A2C00ECF39B /* Thunder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Thunder.png; path = Images/Thunder.png; sourceTree = "<group>"; };
+		32C519D71AB92A2C00ECF39B /* Water.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Water.png; path = Images/Water.png; sourceTree = "<group>"; };
 		7A74751FEC80F80C35FE8398 /* Pods-MH4Udb.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MH4Udb.release.xcconfig"; path = "Pods/Target Support Files/Pods-MH4Udb/Pods-MH4Udb.release.xcconfig"; sourceTree = "<group>"; };
 		C6E5E62B410CE6CEAAE6F894 /* Pods-MH4Udb.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MH4Udb.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MH4Udb/Pods-MH4Udb.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -117,6 +135,7 @@
 				32C116961AA944C200C2D505 /* Main.storyboard */,
 				32C116991AA944C200C2D505 /* Images.xcassets */,
 				32C1169B1AA944C200C2D505 /* LaunchScreen.xib */,
+				32C519CE1AB92A1D00ECF39B /* Images */,
 				32C1168C1AA944C200C2D505 /* Supporting Files */,
 			);
 			path = MH4Udb;
@@ -147,6 +166,22 @@
 				32C116A71AA944C200C2D505 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		32C519CE1AB92A1D00ECF39B /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				32C519CF1AB92A2C00ECF39B /* Blastblight.png */,
+				32C519D01AB92A2C00ECF39B /* Dragon.png */,
+				32C519D11AB92A2C00ECF39B /* Fire.png */,
+				32C519D21AB92A2C00ECF39B /* Ice.png */,
+				32C519D31AB92A2C00ECF39B /* Paralysis.png */,
+				32C519D41AB92A2C00ECF39B /* Poison.png */,
+				32C519D51AB92A2C00ECF39B /* Sleep.png */,
+				32C519D61AB92A2C00ECF39B /* Thunder.png */,
+				32C519D71AB92A2C00ECF39B /* Water.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 		DCE793F42961227C4D58AB42 /* Pods */ = {
@@ -248,8 +283,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32C519DE1AB92A2C00ECF39B /* Sleep.png in Resources */,
 				32C116981AA944C200C2D505 /* Main.storyboard in Resources */,
+				32C519D81AB92A2C00ECF39B /* Blastblight.png in Resources */,
+				32C519D91AB92A2C00ECF39B /* Dragon.png in Resources */,
+				32C519DB1AB92A2C00ECF39B /* Ice.png in Resources */,
 				32C116CA1AA9508900C2D505 /* mh4u.db in Resources */,
+				32C519DD1AB92A2C00ECF39B /* Poison.png in Resources */,
+				32C519DC1AB92A2C00ECF39B /* Paralysis.png in Resources */,
+				32C519DF1AB92A2C00ECF39B /* Thunder.png in Resources */,
+				32C519E01AB92A2C00ECF39B /* Water.png in Resources */,
+				32C519DA1AB92A2C00ECF39B /* Fire.png in Resources */,
 				32C1169D1AA944C200C2D505 /* LaunchScreen.xib in Resources */,
 				32C1169A1AA944C200C2D505 /* Images.xcassets in Resources */,
 			);
