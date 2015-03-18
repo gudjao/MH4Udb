@@ -16,6 +16,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *elementAttackLabel;
 
 @property (strong, nonatomic) IBOutlet UILabel *affinityLabel;
+@property (strong, nonatomic) IBOutlet UILabel *slotLabel;
 
 @property (strong, nonatomic) IBOutlet UIView *pointLine;
 @property (strong, nonatomic) IBOutlet UIView *treeLine;
@@ -46,7 +47,7 @@
 
 @synthesize detailedLabel = _detailedLabel, attackLabel = _attackLabel;
 @synthesize elementImageView = _elementImageView, elementAttackLabel = _elementAttackLabel;
-@synthesize affinityLabel = _affinityLabel;
+@synthesize affinityLabel = _affinityLabel, slotLabel = _slotLabel;
 @synthesize pointLine = _pointLine;
 @synthesize treeLine = _treeLine;
 @synthesize treeLine0 = _treeLine0, treeLine1 = _treeLine1;
@@ -76,6 +77,10 @@
         _affinityLabel = [UILabel new];
         _affinityLabel.font = [UIFont systemFontOfSize:12.0f];
         _affinityLabel.textAlignment = NSTextAlignmentRight;
+        
+        _slotLabel = [UILabel new];
+        _slotLabel.font = [UIFont systemFontOfSize:16.0f];
+        _slotLabel.textAlignment = NSTextAlignmentRight;
         
         _pointLine = [UIView new];
         _treeLine = [UIView new];
@@ -123,6 +128,7 @@
         [self.contentView addSubview:_elementAttackLabel];
         
         [self.contentView addSubview:_affinityLabel];
+        [self.contentView addSubview:_slotLabel];
         
         [self.contentView addSubview:_treeLine];
         [self.contentView addSubview:_treeLine0];
@@ -183,6 +189,8 @@ CGFloat previousDepth = 0;
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
+    self.navigationItem.title = @"Great Sword";
+    
     self.weaponList = [NSMutableArray new];
     self.weaponItemList = [NSMutableArray new];
     
@@ -195,6 +203,10 @@ CGFloat previousDepth = 0;
     self.tableView.backgroundColor = [UIColor colorWithWhite:0.975 alpha:1.0f];
     
     previousDepth = 0;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    self.navigationItem.title = @"";
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -232,7 +244,8 @@ CGFloat previousDepth = 0;
         NSArray *weaponSharpnessPlus = [sharpnessArray[1] componentsSeparatedByString:@"."];
         NSString *element = [weapon stringForColumn:@"element"];
         NSString *elementAttack = [weapon stringForColumn:@"element_attack"];
-        int weaponAffinity = [weapon intForColumn:@"affinity"];
+        NSString *weaponAffinity = [weapon stringForColumn:@"affinity"];
+        int weaponSlots = [weapon intForColumn:@"num_slots"];
         
         [weaponDetail setValue:[NSNumber numberWithInt:weaponID] forKey:@"weaponID"];
         [weaponDetail setValue:[NSNumber numberWithInt:parentID] forKey:@"parentID"];
@@ -243,7 +256,8 @@ CGFloat previousDepth = 0;
         [weaponDetail setValue:weaponSharpnessPlus forKey:@"weaponSharpnessPlus"];
         [weaponDetail setValue:element forKey:@"weaponElement"];
         [weaponDetail setValue:elementAttack forKey:@"weaponElementAttack"];
-        [weaponDetail setValue:[NSNumber numberWithInt:weaponAffinity] forKey:@"weaponAffinity"];
+        [weaponDetail setValue:weaponAffinity forKey:@"weaponAffinity"];
+        [weaponDetail setValue:[NSNumber numberWithInt:weaponSlots] forKey:@"weaponSlots"];
         
         for(NSDictionary *weaponItem in self.weaponItemList) {
             if([[weaponItem objectForKey:@"itemID"] isEqualToNumber:[NSNumber numberWithInt:weaponID]]) {
@@ -307,36 +321,36 @@ CGFloat previousDepth = 0;
     // Sharpness
     NSArray *weaponSharpness = [self.weaponList objectAtIndex:indexPath.row][@"weaponSharpness"];
 
-    cell.sharpnessBackground.frame = CGRectMake(4.0, 58.0f, 140.0f, 12.0f);
+    cell.sharpnessBackground.frame = CGRectMake(4.0, 58.0f, 126.0f, 12.0f);
     CGFloat leftSharpness = 10 + (8 * floatDepth);
     CGRect sharpnessFrame = cell.sharpnessBackground.frame;
     sharpnessFrame.origin.x = leftSharpness;
     cell.sharpnessBackground.frame = sharpnessFrame;
 
-    cell.redSharpness.frame = CGRectMake(0.0f, 1.0f, [weaponSharpness[0] floatValue] * 2, 10.0f);
-    cell.orangeSharpness.frame = CGRectMake(cell.redSharpness.frame.origin.x + cell.redSharpness.frame.size.width, 1.0f, [weaponSharpness[1] floatValue] * 2, 10.0f);
-    cell.yellowSharpness.frame = CGRectMake(cell.orangeSharpness.frame.origin.x + cell.orangeSharpness.frame.size.width, 1.0f, [weaponSharpness[2] floatValue] * 2, 10.0f);
-    cell.greenSharpness.frame = CGRectMake(cell.yellowSharpness.frame.origin.x + cell.yellowSharpness.frame.size.width, 1.0f, [weaponSharpness[3] floatValue] * 2, 10.0f);
-    cell.blueSharpness.frame = CGRectMake(cell.greenSharpness.frame.origin.x + cell.greenSharpness.frame.size.width, 1.0f, [weaponSharpness[4] floatValue] * 2, 10.0f);
-    cell.whiteSharpness.frame = CGRectMake(cell.blueSharpness.frame.origin.x + cell.blueSharpness.frame.size.width, 1.0f, [weaponSharpness[5] floatValue] * 2, 10.0f);
-    cell.purpleSharpness.frame = CGRectMake(cell.whiteSharpness.frame.origin.x + cell.whiteSharpness.frame.size.width, 1.0f, [weaponSharpness[6] floatValue] * 2, 10.0f);
+    cell.redSharpness.frame = CGRectMake(0.0f, 1.0f, [weaponSharpness[0] floatValue] * 1.8, 10.0f);
+    cell.orangeSharpness.frame = CGRectMake(cell.redSharpness.frame.origin.x + cell.redSharpness.frame.size.width, 1.0f, [weaponSharpness[1] floatValue] * 1.8, 10.0f);
+    cell.yellowSharpness.frame = CGRectMake(cell.orangeSharpness.frame.origin.x + cell.orangeSharpness.frame.size.width, 1.0f, [weaponSharpness[2] floatValue] * 1.8, 10.0f);
+    cell.greenSharpness.frame = CGRectMake(cell.yellowSharpness.frame.origin.x + cell.yellowSharpness.frame.size.width, 1.0f, [weaponSharpness[3] floatValue] * 1.8, 10.0f);
+    cell.blueSharpness.frame = CGRectMake(cell.greenSharpness.frame.origin.x + cell.greenSharpness.frame.size.width, 1.0f, [weaponSharpness[4] floatValue] * 1.8, 10.0f);
+    cell.whiteSharpness.frame = CGRectMake(cell.blueSharpness.frame.origin.x + cell.blueSharpness.frame.size.width, 1.0f, [weaponSharpness[5] floatValue] * 1.8, 10.0f);
+    cell.purpleSharpness.frame = CGRectMake(cell.whiteSharpness.frame.origin.x + cell.whiteSharpness.frame.size.width, 1.0f, [weaponSharpness[6] floatValue] * 1.8, 10.0f);
     
     // Sharpness Plus
     NSArray *weaponSharpnessPlus = [self.weaponList objectAtIndex:indexPath.row][@"weaponSharpnessPlus"];
     
-    cell.sharpnessPlusBackground.frame = CGRectMake(4.0, 72.0f, 140.0f, 12.0f);
+    cell.sharpnessPlusBackground.frame = CGRectMake(4.0, 72.0f, 126.0f, 12.0f);
     CGFloat leftSharpnessPlus = 10 + (8 * floatDepth);
     CGRect sharpnessPlusFrame = cell.sharpnessPlusBackground.frame;
     sharpnessPlusFrame.origin.x = leftSharpnessPlus;
     cell.sharpnessPlusBackground.frame = sharpnessPlusFrame;
     
-    cell.redSharpnessPlus.frame = CGRectMake(0.0f, 1.0f, [weaponSharpnessPlus[0] floatValue] * 2, 10.0f);
-    cell.orangeSharpnessPlus.frame = CGRectMake(cell.redSharpnessPlus.frame.origin.x + cell.redSharpnessPlus.frame.size.width, 1.0f, [weaponSharpnessPlus[1] floatValue] * 2, 10.0f);
-    cell.yellowSharpnessPlus.frame = CGRectMake(cell.orangeSharpnessPlus.frame.origin.x + cell.orangeSharpnessPlus.frame.size.width, 1.0f, [weaponSharpnessPlus[2] floatValue] * 2, 10.0f);
-    cell.greenSharpnessPlus.frame = CGRectMake(cell.yellowSharpnessPlus.frame.origin.x + cell.yellowSharpnessPlus.frame.size.width, 1.0f, [weaponSharpnessPlus[3] floatValue] * 2, 10.0f);
-    cell.blueSharpnessPlus.frame = CGRectMake(cell.greenSharpnessPlus.frame.origin.x + cell.greenSharpnessPlus.frame.size.width, 1.0f, [weaponSharpnessPlus[4] floatValue] * 2, 10.0f);
-    cell.whiteSharpnessPlus.frame = CGRectMake(cell.blueSharpnessPlus.frame.origin.x + cell.blueSharpnessPlus.frame.size.width, 1.0f, [weaponSharpnessPlus[5] floatValue] * 2, 10.0f);
-    cell.purpleSharpnessPlus.frame = CGRectMake(cell.whiteSharpnessPlus.frame.origin.x + cell.whiteSharpnessPlus.frame.size.width, 1.0f, [weaponSharpnessPlus[6] floatValue] * 2, 10.0f);
+    cell.redSharpnessPlus.frame = CGRectMake(0.0f, 1.0f, [weaponSharpnessPlus[0] floatValue] * 1.8, 10.0f);
+    cell.orangeSharpnessPlus.frame = CGRectMake(cell.redSharpnessPlus.frame.origin.x + cell.redSharpnessPlus.frame.size.width, 1.0f, [weaponSharpnessPlus[1] floatValue] * 1.8, 10.0f);
+    cell.yellowSharpnessPlus.frame = CGRectMake(cell.orangeSharpnessPlus.frame.origin.x + cell.orangeSharpnessPlus.frame.size.width, 1.0f, [weaponSharpnessPlus[2] floatValue] * 1.8, 10.0f);
+    cell.greenSharpnessPlus.frame = CGRectMake(cell.yellowSharpnessPlus.frame.origin.x + cell.yellowSharpnessPlus.frame.size.width, 1.0f, [weaponSharpnessPlus[3] floatValue] * 1.8, 10.0f);
+    cell.blueSharpnessPlus.frame = CGRectMake(cell.greenSharpnessPlus.frame.origin.x + cell.greenSharpnessPlus.frame.size.width, 1.0f, [weaponSharpnessPlus[4] floatValue] * 1.8, 10.0f);
+    cell.whiteSharpnessPlus.frame = CGRectMake(cell.blueSharpnessPlus.frame.origin.x + cell.blueSharpnessPlus.frame.size.width, 1.0f, [weaponSharpnessPlus[5] floatValue] * 1.8, 10.0f);
+    cell.purpleSharpnessPlus.frame = CGRectMake(cell.whiteSharpnessPlus.frame.origin.x + cell.whiteSharpnessPlus.frame.size.width, 1.0f, [weaponSharpnessPlus[6] floatValue] * 1.8, 10.0f);
     
     // Weapon Name
     CGFloat left = 10 + (8 * floatDepth);
@@ -344,6 +358,7 @@ CGFloat previousDepth = 0;
     detailsFrame.origin.x = left;
     cell.detailedLabel.frame = detailsFrame;
     cell.detailedLabel.text = [self.weaponList objectAtIndex:indexPath.row][@"weaponName"];
+    [cell.detailedLabel sizeToFit];
     
     // Weapon Attack
     CGFloat attackLeft = 10 + (8 * floatDepth);
@@ -364,13 +379,35 @@ CGFloat previousDepth = 0;
     [cell.elementAttackLabel sizeToFit];
     
     // Weapon Affinity
-    cell.affinityLabel.text = [NSString stringWithFormat:@"%d%%", [[self.weaponList objectAtIndex:indexPath.row][@"weaponAffinity"] intValue]];
-    [cell.affinityLabel sizeToFit];
+    if([[self.weaponList objectAtIndex:indexPath.row][@"weaponAffinity"]  isEqual: @""]) {
+        cell.affinityLabel.text = @"";
+    } else {
+        cell.affinityLabel.text = [NSString stringWithFormat:@"Affinity: %@%%", [self.weaponList objectAtIndex:indexPath.row][@"weaponAffinity"]];
+    }
     
-    CGFloat affinityLabelWidth = cell.frame.size.width - (cell.elementAttackLabel.frame.origin.x + cell.elementAttackLabel.frame.size.width);
-    cell.affinityLabel.frame = CGRectMake(160.0f, 34.0f, affinityLabelWidth, 24.0f);
-    cell.affinityLabel.backgroundColor = [UIColor brownColor];
-    [cell.affinityLabel sizeToFit];
+    cell.affinityLabel.frame = CGRectMake(cell.frame.size.width - 90.0f, 34.0f, 80.0f, cell.attackLabel.frame.size.height);
+    
+    // Weapon Slots
+    cell.slotLabel.frame = CGRectMake(cell.frame.size.width - 90.0f, 6.0f, 80.0f, cell.detailedLabel.frame.size.height);
+    
+    int slots = [[self.weaponList objectAtIndex:indexPath.row][@"weaponSlots"] intValue];
+    switch (slots) {
+        case 0:
+            cell.slotLabel.text = @"---";
+            break;
+        case 1:
+            cell.slotLabel.text = @"O--";
+            break;
+        case 2:
+            cell.slotLabel.text = @"OO-";
+            break;
+        case 3:
+            cell.slotLabel.text = @"OOO";
+            break;
+        default:
+            cell.slotLabel.text = @"";
+            break;
+    }
     
     // Rarity Line
     CGFloat leftLine = 2 + (8 * floatDepth);
